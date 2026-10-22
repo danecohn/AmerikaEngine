@@ -1,3 +1,4 @@
+from pathlib import Path
 """amerika-engine: Godot (distro package, not bundled) + the amerika_engine editor plugin, launcher, templates and notices."""
 import shutil
 
@@ -7,12 +8,13 @@ IGNORE = shutil.ignore_patterns('__pycache__', '*.pyc', '*.uid')
 def register(b):
     def build():
         src = b.OS / 'engine'
+        if not src.exists(): src = Path(__file__).resolve().parents[2] / 'src'
         p = b.Pkg('amerika-engine', b.DE_VERSION,
-                  'Amerika Engine, powered by Godot\nGodot 4 with an AI game assembler: a chat dock, a game recipe that '
+                  'Engine, powered by Godot\nGodot 4 with an AI game assembler: a chat dock, a game recipe that '
                   'generates scenes, scripts and settings, tested behaviour components, starter templates and a control endpoint for '
-                  'Amerika Agent. Godot itself comes from the distro package. Godot is a trademark of the Godot Foundation; '
-                  'Amerika Engine is not affiliated with or endorsed by it.',
-                  arch='all', title='Amerika Engine', category='Development', section='devel',
+                  'local automation. Godot itself comes from the distro package. Godot is a trademark of the Godot Foundation; '
+                  'Engine is not affiliated with or endorsed by it.',
+                  arch='all', title='Engine', category='Development', section='devel',
                   depends=f'amerika-studio (>= {b.DE_VERSION}), godot (>= 4.4), python3',
                   recommends='godot-templates, vulkan-tools, python3-pil')
         shutil.copytree(src / 'amerika_engine', p.path('/usr/lib/python3/dist-packages/amerika_engine'), ignore=IGNORE)
@@ -32,6 +34,6 @@ def register(b):
                     'See /usr/share/common-licenses/GPL-3.\n\n'
                     'Godot Engine: Copyright (c) 2014-present Godot Engine contributors, Copyright (c) 2007-2014 Juan Linietsky, '
                     'Ariel Manzur. MIT licence, full text in /usr/share/doc/amerika-engine/GODOT-LICENSE.txt and in the godot package.\n'
-                    '"Godot" is a trademark of the Godot Foundation; Amerika Engine is not affiliated with or endorsed by it.\n')
+                    '"Godot" is a trademark of the Godot Foundation; Engine is not affiliated with or endorsed by it.\n')
         return p
     return {'amerika-engine': build}

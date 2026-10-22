@@ -1,4 +1,4 @@
-"""Retro-futurist neon-on-chrome editor settings, seeded once into the Amerika Engine config directory."""
+"""Retro-futurist neon-on-chrome editor settings, seeded once into the Engine config directory."""
 from pathlib import Path
 
 MARK = '; amerika-engine theme v1'

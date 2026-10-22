@@ -1,7 +1,7 @@
 extends "res://addons/amerika_engine/components/component.gd"
 ## @component sprite_anim
 ## @dims 2d
-## @summary Frame animation for a sprite sheet (Amerika Sprite export): picks idle / run / jump rows from the host's motion.
+## @summary Frame animation for a sprite sheet (Sprite export): picks idle / run / jump rows from the host's motion.
 
 @export var animations: Dictionary = {} ## Name -> [first_frame, last_frame], e.g. {"idle": [0, 1], "run": [2, 5], "jump": [6, 6]}
 @export var fps: float = 8.0 ## Frames per second

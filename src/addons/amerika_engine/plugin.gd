@@ -1,6 +1,6 @@
 @tool
 extends EditorPlugin
-## Amerika Engine editor plugin: chat dock + control endpoint + project tools.
+## Engine editor plugin: chat dock + control endpoint + project tools.
 
 const Tools := preload("res://addons/amerika_engine/tools.gd")
 const AiClient := preload("res://addons/amerika_engine/ai_client.gd")

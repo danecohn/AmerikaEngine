@@ -1,5 +1,5 @@
 extends Node
-## The tool-use loop in GDScript. Talks ONLY to the local Amerika Studio bridge (loopback, bearer token read from a file);
+## The tool-use loop in GDScript. Talks ONLY to the local Studio bridge (loopback, bearer token read from a file);
 ## there is no API key in the plugin. Non-streaming Messages API. One request at a time.
 
 const Bridge := preload("res://addons/amerika_engine/bridge.gd")
@@ -21,7 +21,7 @@ var tools: RefCounted ## tools.gd instance
 var bridge := Bridge.new()
 var model: String = "claude-sonnet-5-5"
 var review: bool = true ## ask before running scripts the model wrote
-var auto_approve: bool = false ## never ask (used for app.prompt from Amerika Agent, which has its own approval)
+var auto_approve: bool = false ## never ask (used for app.prompt from local automation, which has its own approval)
 var max_turns: int = 30
 var max_tokens: int = 8000
 var busy: bool = false
@@ -98,7 +98,7 @@ func run_prompt(user_text: String, label: String = "") -> Dictionary:
 	if tools == null:
 		return {"ok": false, "error": "no tools attached", "code": -32004}
 	if bridge.read_token() == "":
-		var msg := "No Studio token found (%s). Start Amerika Studio (amerika-studio ensure) and set up your Anthropic key there." % bridge.token_path()
+		var msg := "No Studio token found (%s). Start Studio (amerika-studio ensure) and set up your Anthropic key there." % bridge.token_path()
 		finished.emit({"ok": false, "error": msg})
 		return {"ok": false, "error": msg, "code": -32004}
 	while not is_inside_tree():
@@ -269,7 +269,7 @@ func _call_api() -> Dictionary:
 		var code: int = _resp.get("code", 0)
 		var text := (_resp.get("body", PackedByteArray()) as PackedByteArray).get_string_from_utf8()
 		if r != HTTPRequest.RESULT_SUCCESS:
-			return {"ok": false, "error": "Cannot reach the Studio bridge at %s (HTTP result %d). Start it with `amerika-studio ensure` or open Amerika Studio." % [bridge.base_url(), r]}
+			return {"ok": false, "error": "Cannot reach the Studio bridge at %s (HTTP result %d). Start it with `amerika-studio ensure` or open Studio." % [bridge.base_url(), r]}
 		var parsed: Variant = JSON.parse_string(text)
 		if code == 200 and parsed is Dictionary:
 			return {"ok": true, "body": parsed}
@@ -290,8 +290,8 @@ func _call_api() -> Dictionary:
 			continue
 		if code == 401 or code == 403:
 			if etype == "no_api_key" or emsg.to_lower().contains("key"):
-				return {"ok": false, "error": "No Anthropic key is set up. Open Amerika Studio and choose 'Set up Anthropic key'."}
-			return {"ok": false, "error": "The Studio bridge refused the token (%s). Restart Amerika Studio." % emsg}
+				return {"ok": false, "error": "No Anthropic key is set up. Open Studio and choose 'Set up Anthropic key'."}
+			return {"ok": false, "error": "The Studio bridge refused the token (%s). Restart Studio." % emsg}
 		return {"ok": false, "error": "%s (HTTP %d%s)" % [emsg, code, (", " + etype) if etype != "" else ""]}
 	return {"ok": false, "error": "unreachable"}
 

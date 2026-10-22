@@ -627,7 +627,7 @@
    ],
    "mover": false,
    "internal": false,
-   "summary": "Frame animation for a sprite sheet (Amerika Sprite export): picks idle / run / jump rows from the host's motion.",
+   "summary": "Frame animation for a sprite sheet (Sprite export): picks idle / run / jump rows from the host's motion.",
    "params": {
     "animations": {
      "type": "object",

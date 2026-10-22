@@ -1,5 +1,5 @@
 extends RefCounted
-## Where the plugin talks to: the local Amerika Studio bridge. There is no API key anywhere in the plugin; the bridge adds it.
+## Where the plugin talks to: the local Studio bridge. There is no API key anywhere in the plugin; the bridge adds it.
 ## The per-user token is read from $XDG_RUNTIME_DIR/amerika/studio-token (or AMERIKA_STUDIO_TOKEN_FILE for tests).
 ## Also writes the control-endpoint descriptor $XDG_RUNTIME_DIR/amerika/studio-engine.json (mode 0600).
 

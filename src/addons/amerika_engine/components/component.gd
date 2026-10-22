@@ -1,5 +1,5 @@
 extends Node
-## Base class for Amerika Engine behaviour components.
+## Base class for Engine behaviour components.
 ##
 ## A component is a plain Node attached as a child of an entity root (a Node2D/Node3D,
 ## CharacterBody or StaticBody). It finds its `host` through get_parent(), so the same

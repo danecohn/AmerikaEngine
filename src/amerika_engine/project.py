@@ -1,4 +1,4 @@
-"""Create / prepare Amerika Engine projects: install the plugin, apply a template, assemble headlessly."""
+"""Create / prepare Engine projects: install the plugin, apply a template, assemble headlessly."""
 import json
 import os
 import re

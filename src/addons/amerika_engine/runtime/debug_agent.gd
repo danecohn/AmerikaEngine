@@ -1,5 +1,5 @@
 extends Node
-## AmerikaDebug autoload: lets the Amerika Engine assistant and CI drive a game it launched.
+## AmerikaDebug autoload: lets the Engine assistant and CI drive a game it launched.
 ## It does nothing unless the game was started with `--amerika-agent` after the `--` separator, so shipped games are unaffected.
 ##
 ## Flags (all after `--`):

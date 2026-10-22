@@ -17,7 +17,7 @@ def _png_fallback(path, w, h):
     Path(path).write_bytes(b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)) + chunk(b'IDAT', zlib.compress(raw)) + chunk(b'IEND', b''))
 
 
-def make_splash(path, title='Amerika Engine', w=640, h=360):
+def make_splash(path, title='Engine', w=640, h=360):
     try:
         from PIL import Image, ImageDraw
     except ImportError:

@@ -1,5 +1,5 @@
 extends RefCounted
-## The tools the assistant (and Amerika Agent over JSON-RPC) can call. Every tool takes a Dictionary and returns a
+## The tools the assistant (and local automation over JSON-RPC) can call. Every tool takes a Dictionary and returns a
 ## Dictionary: {ok: true, ...} or {ok: false, error: "...", code: -32xxx}. All file access is confined to res://.
 ## Works with or without the editor: `plugin` is null when running from the command line / tests.
 
@@ -170,7 +170,7 @@ func resolve(path: String, write: bool = false) -> Dictionary:
 	if not parts.is_empty() and HIDDEN_ROOTS.has(parts[0]):
 		return err("%s is not accessible" % parts[0], ERR_PATH)
 	if write and parts.size() >= 2 and parts[0] == "addons" and parts[1] == "amerika_engine":
-		return err("the Amerika Engine plugin files are read-only", ERR_PATH)
+		return err("the Engine plugin files are read-only", ERR_PATH)
 	if write and parts.size() == 1 and parts[0] in ["project.godot", "override.cfg"]:
 		return err("%s cannot be written directly; use set_input_map / assemble_recipe" % parts[0], ERR_PATH)
 	var da := DirAccess.open("res://")
@@ -289,7 +289,7 @@ func finish_session() -> Dictionary:
 	if plugin != null and plugin.has_method("get_undo_redo"):
 		var ur: Object = plugin.call("get_undo_redo")
 		if ur != null:
-			ur.call("create_action", "Amerika: " + str(manifest["label"]).left(60))
+			ur.call("create_action", "Engine: " + str(manifest["label"]).left(60))
 			ur.call("add_do_method", history, "redo_session", manifest["id"])
 			ur.call("add_undo_method", history, "undo_session", manifest["id"])
 			ur.call("commit_action", false)

@@ -1,10 +1,10 @@
-# Amerika Engine
+# Engine
 
-Amerika Engine is **upstream Godot 4** (MIT; the distro `godot` package, tested with 4.7.2 arm64 and written for 4.4+) plus the
-**`amerika_engine` editor plugin**. It is not a source fork. "Godot" is a trademark of the Godot Foundation; Amerika Engine is
+Engine is **upstream Godot 4** (MIT; the distro `godot` package, tested with 4.7.2 arm64 and written for 4.4+) plus the
+**`amerika_engine` editor plugin**. It is not a source fork. "Godot" is a trademark of the Godot Foundation; Engine is
 not affiliated with or endorsed by it. Godot is not bundled: the package depends on the distro's `godot`.
 
-Install: `sudo apt install amerika-engine` (or `amerika-developer`). Start it from the launcher "Amerika Engine" or `amerika-engine`.
+Install: `sudo apt install amerika-engine` (or `amerika-developer`). Start it from the launcher "Engine" or `amerika-engine`.
 
 ## What you get
 
@@ -22,7 +22,7 @@ Install: `sudo apt install amerika-engine` (or `amerika-developer`). Start it fr
   (Orb Arena, third person), `fps_vault` (Neon Vault, first person with key and locked door), `visual_novel` (Signal Lost),
   `memory_puzzle` (Memory Grid). Racing-lite and a general card/board genre are **not** assembled yet (roadmap; the puzzle genre is a
   memory-match board).
-* **Control endpoint** for Amerika Agent: loopback JSON-RPC, see below.
+* **Control endpoint** for local automation: loopback JSON-RPC, see below.
 * **Branding**: neon editor theme seeded into `~/.config/amerika-engine/godot/editor_settings-4.tres` on first launch (own config
   directory via `XDG_CONFIG_HOME`; your normal Godot settings are untouched), splash image for new projects, project icon.
 
@@ -52,7 +52,7 @@ Install: `sudo apt install amerika-engine` (or `amerika-developer`). Start it fr
 * Entity `role`: player, enemy, npc, item, hazard, goal, block, prop, spawner. Missing essentials are added per role and reported in the
   assembly `notes` (player: controller + health + camera; enemy: health + contact damage; item: pickup + spin/bob; hazard: contact
   damage; goal: door_trigger).
-* Visuals: `sprite {texture, hframes, vframes}` for 2D sheets (Amerika Sprite), `model` (.glb/.gltf from Amerika Render; origin at the feet,
+* Visuals: `sprite {texture, hframes, vframes}` for 2D sheets (Sprite), `model` (.glb/.gltf from Render; origin at the feet,
   `model_offset`, `model_scale`, `model_rotation_y`), otherwise a coloured placeholder (`shape`, `size`, `color`).
 * Levels: `rows` (ASCII grid; `#` solid, `.`/space empty, other characters via `legend`) or `objects` (`entity`, `pos` [x,y] or [x,z]
   in 3D, `count`, `step`, `size` for blocks). `tile_size` 32 px (2D) or 2 m (3D); 3D grids get a neon floor and walls of `wall_height`.
@@ -81,7 +81,7 @@ Install: `sudo apt install amerika-engine` (or `amerika-developer`). Start it fr
 | `shooter` | 2d/3d | Fires projectiles. mode=player shoots on the shoot action (aim from movement, mouse or camera); mode=turret shoots automatically at the nearest body of aim_group. | `mode`, `damage`, `projectile_speed`, `cooldown`, `lifetime`, `target_group`, `aim_group`, `max_range`, `color`, `sfx`, `muzzle_offset` |
 | `spawner` | 2d/3d | Spawns copies of an entity scene around the host at an interval, up to a maximum alive. | `scene`, `interval`, `max_alive`, `spread`, `initial`, `active_group` |
 | `spin_bob` | 2d/3d | Decoration: spin around the up axis and/or float up and down (nice for coins and gems). | `spin_degrees`, `bob_height`, `bob_speed` |
-| `sprite_anim` | 2d | Frame animation for a sprite sheet (Amerika Sprite export): picks idle / run / jump rows from the host's motion. | `animations`, `fps`, `sprite_path`, `face_motion` |
+| `sprite_anim` | 2d | Frame animation for a sprite sheet (Sprite export): picks idle / run / jump rows from the host's motion. | `animations`, `fps`, `sprite_path`, `face_motion` |
 | `third_person_controller` | 3d (mover) | Camera-relative third-person movement for a CharacterBody3D with jump and gravity; pairs with camera_follow (orbit mode). | `speed`, `acceleration`, `jump_speed`, `gravity`, `turn_speed`, `kill_y` |
 | `topdown_controller` | 2d (mover) | Eight-way top-down movement for a CharacterBody2D; the facing vector follows movement (or the mouse when aim_with_mouse is set). | `speed`, `acceleration`, `aim_with_mouse`, `rotate_host` |
 
@@ -112,18 +112,18 @@ and the plugin's own files are refused (`-32003`). `write_file` only accepts `gd
 The system prompt (`system_prompt.gd`) teaches the loop plan recipe -> assemble -> run -> read errors -> fix -> screenshot -> refine,
 GDScript 4 style, the Godot 3 APIs to avoid, composition with components, and embeds the live component catalogue.
 
-## Control endpoint (Amerika Agent)
+## Control endpoint (local automation)
 
 While the editor runs the plugin listens on `127.0.0.1:<free port>` and writes `$XDG_RUNTIME_DIR/amerika/studio-engine.json`
 (`{{app,url,token,pid,version}}`, mode 0600, created empty, chmod'ed, then filled; removed on exit). `POST /rpc` JSON-RPC 2.0 with
 `Authorization: Bearer <token>`; foreign `Host`/any `Origin` are refused; one call at a time (`-32002` busy). Methods: `app.ping`,
-`app.prompt` (runs the chat assistant without asking for approval, since Amerika Agent has its own), and every method in the table
+`app.prompt` (runs the chat assistant without asking for approval, since local automation has its own), and every method in the table
 above. Errors: `-32601` unknown, `-32602` invalid params, `-32003` path outside project, `-32002` busy, `-32004` not ready, `-32000` other.
 
 `src/os/studio/tools.json` lists the 15 `engine.*` tools (+ `app.prompt`); all are implemented. The extra methods
 (`engine.game.screenshot`, `engine.node.*`, `engine.script.attach`, `engine.input.set`, `engine.export.set_preset`,
 `engine.recipe.validate`, `engine.history.*`) are **not** in `tools.json` yet, so the MCP server does not expose them; add them there (risk `act`
-for writers, `read` for screenshot/validate/list) to give Amerika Agent screenshots and node editing.
+for writers, `read` for screenshot/validate/list) to give local automation screenshots and node editing.
 
 ## The model loop and the bridge
 

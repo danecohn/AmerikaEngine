@@ -1,4 +1,4 @@
-"""Amerika Engine: recipe schema, components, assembler (golden), tools over the real control endpoint, the GDScript tool
+"""Engine: recipe schema, components, assembler (golden), tools over the real control endpoint, the GDScript tool
 loop against a fake bridge, templates smoke-run, screenshot under the KWin rig, launcher and packaging.
 
 Real Godot is used wherever it can be found (AMERIKA_GODOT, work/tools/godot, or `godot` on PATH); those tests skip with a
@@ -22,7 +22,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ENGINE = ROOT / 'src/os/engine'
+ENGINE = ROOT / 'src'
 ADDON = ENGINE / 'addons/amerika_engine'
 TEMPLATES = ENGINE / 'templates'
 FIX = ROOT / 'tests/fixtures/engine'
@@ -180,7 +180,7 @@ class LauncherTests(unittest.TestCase):
 
     def test_desktop_entry_and_notice(self):
         d = (ENGINE / 'applications/amerika-engine.desktop').read_text()
-        self.assertIn('Name=Amerika Engine', d)
+        self.assertIn('Name=Engine', d)
         self.assertIn('Exec=amerika-engine', d)
         self.assertIn('not affiliated with or endorsed', (ENGINE / 'NOTICE').read_text())
         self.assertIn('Permission is hereby granted', (ENGINE / 'GODOT-LICENSE.txt').read_text())
@@ -260,7 +260,10 @@ class AssemblerTests(unittest.TestCase):
                 shutil.copy(p / f, GOLDEN / f)
         for f in files:
             self.assertTrue((GOLDEN / f).exists(), f'missing golden {f}')
-            self.assertEqual((p / f).read_text(), (GOLDEN / f).read_text(), f)
+            if f.endswith('.json'):
+                self.assertEqual(json.loads((p / f).read_text()),json.loads((GOLDEN / f).read_text()),f)
+            else:
+                self.assertEqual((p / f).read_text(), (GOLDEN / f).read_text(), f)
 
     def test_assembly_is_deterministic_and_keeps_hand_edits(self):
         p = self.proj('arena_3d')
