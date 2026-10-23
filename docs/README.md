@@ -2,7 +2,7 @@
 
 Studio is the shared layer under four apps where you describe what you want and Claude builds it:
 **Render** (Blender + add-on), **Engine** (Godot + plugin), **Sprite** (original pixel-art editor in a
-WebKitGTK window) and **MakBox** (BeepBox fork in a WebKitGTK window). This document covers the shared layer owned by
+WebKitGTK window) and **AltStack Box** (BeepBox fork in a WebKitGTK window). This document covers the shared layer owned by
 `studio-core`: key handling, the bridge, the tool-use loop, the MCP server, the hub, the web shell and packaging. The product
 architecture and licensing notes are in `docs/STUDIO-ARCHITECTURE.md`; the web shell contract is in [webview.md](webview.md).
 

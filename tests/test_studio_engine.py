@@ -180,7 +180,7 @@ class LauncherTests(unittest.TestCase):
 
     def test_desktop_entry_and_notice(self):
         d = (ENGINE / 'applications/amerika-engine.desktop').read_text()
-        self.assertIn('Name=Engine', d)
+        self.assertIn('Name=AltStack Engine', d)
         self.assertIn('Exec=amerika-engine', d)
         self.assertIn('not affiliated with or endorsed', (ENGINE / 'NOTICE').read_text())
         self.assertIn('Permission is hereby granted', (ENGINE / 'GODOT-LICENSE.txt').read_text())
