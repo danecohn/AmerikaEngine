@@ -23,6 +23,7 @@ def register(b):
         shutil.copytree(src / 'templates', p.path('/usr/share/amerika-engine/templates'), ignore=IGNORE)
         for f in sorted(f for f in (src / 'icons').iterdir() if f.suffix in ('.svg', '.png')):
             p.copy(f, '/usr/share/amerika-engine/icons/' + f.name)
+        p.copy(src / 'icons/artemis-engine.png', '/usr/share/icons/hicolor/512x512/apps/artemis-engine.png')
         p.copy(src / 'applications/amerika-engine.desktop', '/usr/share/applications/amerika-engine.desktop')
         docs = b.ROOT / 'docs/studio/engine.md'
         if docs.exists():
