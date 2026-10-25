@@ -169,7 +169,8 @@ class LauncherTests(unittest.TestCase):
             self.assertTrue((proj / 'addons/amerika_engine/plugin.cfg').exists())
             self.assertIn('amerika_engine/plugin.cfg', (proj / 'project.godot').read_text())
             self.assertTrue((proj / 'splash.png').exists())
-            self.assertTrue((proj / 'icon.svg').exists())
+            self.assertTrue((proj / 'icon.png').exists())
+            self.assertEqual((proj / 'icon.png').read_bytes()[:8], b'\x89PNG\r\n\x1a\n')
             tres = (cfg / 'godot/editor_settings-4.tres').read_text()
             self.assertIn('interface/theme/accent_color', tres)
             theme.seed(cfg)  # idempotent
@@ -220,7 +221,7 @@ class PackagingTests(unittest.TestCase):
         pkg = mod.register(b)['amerika-engine']()
         root = pkg.root
         for rel in ('usr/bin/amerika-engine', 'usr/lib/python3/dist-packages/amerika_engine/launcher.py',
-                    'usr/share/amerika-engine/addons/amerika_engine/plugin.cfg', 'usr/share/amerika-engine/addons/amerika_engine/recipe.schema.json',
+                    'usr/share/amerika-engine/icons/amerika-engine-project.png', 'usr/share/amerika-engine/addons/amerika_engine/plugin.cfg', 'usr/share/amerika-engine/addons/amerika_engine/recipe.schema.json',
                     'usr/share/amerika-engine/addons/amerika_engine/components/health.gd', 'usr/share/amerika-engine/templates/platformer_2d/amerika_recipe.json',
                     'usr/share/applications/amerika-engine.desktop', 'usr/share/doc/amerika-engine/NOTICE', 'usr/share/doc/amerika-engine/GODOT-LICENSE.txt',
                     'usr/share/doc/amerika-engine/copyright'):

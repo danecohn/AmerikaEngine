@@ -87,9 +87,9 @@ def new_project(dest, name, template=None, godot=None, assemble=True):
             f'config/name={json.dumps(name)}\nconfig/features=PackedStringArray("4.6")\n')
     install_addon(dest)
     for src in share_dirs():
-        icon = src / 'icons/amerika-engine-project.svg'
-        if icon.exists() and not (dest / 'icon.svg').exists():
-            shutil.copy(icon, dest / 'icon.svg')
+        icon = src / 'icons/amerika-engine-project.png'
+        if icon.exists() and not (dest / 'icon.png').exists() and not (dest / 'icon.svg').exists():
+            shutil.copy(icon, dest / 'icon.png')
             break
     if template:
         src = templates_dir() / template / 'amerika_recipe.json'

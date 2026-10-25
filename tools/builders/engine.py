@@ -21,7 +21,7 @@ def register(b):
         p.copy(src / 'bin/amerika-engine', '/usr/bin/amerika-engine', 0o755)
         shutil.copytree(src / 'addons', p.path('/usr/share/amerika-engine/addons'), ignore=IGNORE)
         shutil.copytree(src / 'templates', p.path('/usr/share/amerika-engine/templates'), ignore=IGNORE)
-        for f in sorted((src / 'icons').glob('*.svg')):
+        for f in sorted(f for f in (src / 'icons').iterdir() if f.suffix in ('.svg', '.png')):
             p.copy(f, '/usr/share/amerika-engine/icons/' + f.name)
         p.copy(src / 'applications/amerika-engine.desktop', '/usr/share/applications/amerika-engine.desktop')
         docs = b.ROOT / 'docs/studio/engine.md'
