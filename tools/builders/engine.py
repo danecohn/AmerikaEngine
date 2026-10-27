@@ -10,11 +10,11 @@ def register(b):
         src = b.OS / 'engine'
         if not src.exists(): src = Path(__file__).resolve().parents[2] / 'src'
         p = b.Pkg('amerika-engine', b.DE_VERSION,
-                  'Engine, powered by Godot\nGodot 4 with an AI game assembler: a chat dock, a game recipe that '
+                  'Cohnsoft Engine, powered by Godot\nGodot 4 with an AI game assembler: a chat dock, a game recipe that '
                   'generates scenes, scripts and settings, tested behaviour components, starter templates and a control endpoint for '
                   'local automation. Godot itself comes from the distro package. Godot is a trademark of the Godot Foundation; '
                   'Engine is not affiliated with or endorsed by it.',
-                  arch='all', title='Engine', category='Development', section='devel',
+                  arch='all', title='Cohnsoft Engine', category='Development', section='devel',
                   depends=f'amerika-studio (>= {b.DE_VERSION}), godot (>= 4.4), python3',
                   recommends='godot-templates, vulkan-tools, python3-pil')
         shutil.copytree(src / 'amerika_engine', p.path('/usr/lib/python3/dist-packages/amerika_engine'), ignore=IGNORE)

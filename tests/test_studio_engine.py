@@ -179,9 +179,28 @@ class LauncherTests(unittest.TestCase):
             ver = subprocess.run([sys.executable, '-m', 'amerika_engine.launcher', '--version'], capture_output=True, text=True, env=env)
             self.assertIn('not affiliated with or endorsed by the Godot Foundation', ver.stdout)
 
+    def test_generated_theme_upgrades_but_user_settings_are_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            config = Path(tmp)
+            folder = config / 'godot'
+            folder.mkdir()
+            settings = folder / 'editor_settings-4.tres'
+            original = (ROOT / 'tests/fixtures/engine/legacy-editor-settings.tres').read_bytes()
+            settings.write_bytes(original)
+            theme.seed(config)
+            self.assertNotEqual(settings.read_bytes(), original)
+            self.assertIn('CohnSans-Regular.ttf', settings.read_text())
+            branded = settings.read_bytes()
+            theme.seed(config)
+            self.assertEqual(settings.read_bytes(), branded)
+            custom = original + b'\n; User customised settings\n'
+            settings.write_bytes(custom)
+            theme.seed(config)
+            self.assertEqual(settings.read_bytes(), custom)
+
     def test_desktop_entry_and_notice(self):
         d = (ENGINE / 'applications/amerika-engine.desktop').read_text()
-        self.assertIn('Name=Engine', d)
+        self.assertIn('Name=Cohnsoft Engine', d)
         self.assertIn('Exec=amerika-engine', d)
         self.assertIn('not affiliated with or endorsed', (ENGINE / 'NOTICE').read_text())
         self.assertIn('Permission is hereby granted', (ENGINE / 'GODOT-LICENSE.txt').read_text())
