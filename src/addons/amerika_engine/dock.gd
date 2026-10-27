@@ -1,5 +1,5 @@
 extends VBoxContainer
-## The Cohnsoft Engine dock: chat history, model choice, Review-before-run, Stop, per-request Undo/Redo, quick actions.
+## The Vigil Engine dock: chat history, model choice, Review-before-run, Stop, per-request Undo/Redo, quick actions.
 
 var ai: Node
 var tools: RefCounted
@@ -24,7 +24,7 @@ func setup(p_ai: Node, p_tools: RefCounted) -> void:
 	name = "Studio"
 	custom_minimum_size = Vector2(300, 400)
 	var heading := Label.new()
-	heading.text = "Cohnsoft Engine"
+	heading.text = "Vigil Engine"
 	heading.add_theme_font_size_override("font_size", 18)
 	add_child(heading)
 	var top := HBoxContainer.new()
@@ -80,10 +80,10 @@ func setup(p_ai: Node, p_tools: RefCounted) -> void:
 	_undo = _btn(bar, "Undo request", _on_undo)
 	_redo = _btn(bar, "Redo", _on_redo)
 	_btn(bar, "Assemble", func() -> void: _quick("Assemble the recipe and run it for 300 frames; fix any errors."))
-	_btn(bar, "New chat", func() -> void: ai.clear_chat(); _log.clear(); _say("[color=gray]New conversation.[/color]"))
+	_btn(bar, "New chat", func() -> void: ai.clear_chat(); _log.clear(); _say("[color=#b9a8b4]New conversation.[/color]"))
 	ai.assistant_text.connect(func(t: String) -> void: _say("[b]Studio:[/b] " + _esc(t)))
-	ai.tool_started.connect(func(_id: String, n: String, i: Dictionary) -> void: _say("[color=#ffb02e]> %s[/color] %s" % [n, _esc(JSON.stringify(i).left(160))]))
-	ai.tool_finished.connect(func(_id: String, n: String, s: String, ok: bool) -> void: _say("[color=%s]  %s: %s[/color]" % ["#3dffb0" if ok else "#ff3d6e", "done" if ok else "failed", _esc(s)]))
+	ai.tool_started.connect(func(_id: String, n: String, i: Dictionary) -> void: _say("[color=#ffc66e]> %s[/color] %s" % [n, _esc(JSON.stringify(i).left(160))]))
+	ai.tool_finished.connect(func(_id: String, n: String, s: String, ok: bool) -> void: _say("[color=%s]  %s: %s[/color]" % ["#7ee0a8" if ok else "#ff7aa6", "done" if ok else "failed", _esc(s)]))
 	ai.status.connect(func(t: String) -> void: _status.text = t)
 	ai.busy_changed.connect(_on_busy)
 	ai.approval_needed.connect(_on_approval)
@@ -91,7 +91,7 @@ func setup(p_ai: Node, p_tools: RefCounted) -> void:
 	_load_settings()
 	_replay()
 	_refresh_models()
-	_say("[color=gray]Describe the game you want. Every request can be undone with Undo request.[/color]")
+	_say("[color=#b9a8b4]Describe the game you want. Every request can be undone with Undo request.[/color]")
 
 
 func _btn(parent: Control, text: String, cb: Callable) -> Button:
@@ -154,7 +154,7 @@ func _on_busy(b: bool) -> void:
 
 func _on_finished(r: Dictionary) -> void:
 	if not r.get("ok", false):
-		_say("[color=#ff3d6e]%s[/color]" % _esc(str(r.get("error", "failed"))))
+		_say("[color=#ff7aa6]%s[/color]" % _esc(str(r.get("error", "failed"))))
 
 
 func _on_approval(id: String, n: String, input: Dictionary) -> void:
@@ -177,7 +177,7 @@ func _on_undo() -> void:
 		return
 	var r: Dictionary = tools.history.restore(str(s["id"]), false)
 	_undone.append(s["id"])
-	_say("[color=gray]Undid: %s (%d files)[/color]" % [_esc(str(s.get("label", ""))), (r.get("restored", []) as Array).size()])
+	_say("[color=#b9a8b4]Undid: %s (%d files)[/color]" % [_esc(str(s.get("label", ""))), (r.get("restored", []) as Array).size()])
 
 
 func _on_redo() -> void:
@@ -185,7 +185,7 @@ func _on_redo() -> void:
 		return
 	var id: String = _undone.pop_back()
 	tools.history.restore(id, true)
-	_say("[color=gray]Redid a request.[/color]")
+	_say("[color=#b9a8b4]Redid a request.[/color]")
 
 
 func _save_settings() -> void:

@@ -7,8 +7,8 @@ from pathlib import Path
 
 from . import project, theme
 
-NOTICE = ('Cohnsoft Engine is powered by the Godot Engine (MIT licence). Godot is a trademark of the Godot Foundation; '
-          'Cohnsoft Engine is not affiliated with or endorsed by the Godot Foundation.')
+NOTICE = ('Vigil Engine is powered by the Godot Engine (MIT licence). Godot is a trademark of the Godot Foundation; '
+          'Vigil Engine is not affiliated with or endorsed by the Godot Foundation.')
 
 
 def studio_engine_dir():
@@ -32,7 +32,7 @@ def build_command(godot, proj):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog='amerika-engine', description='Cohnsoft Engine: Godot you talk to. ' + NOTICE)
+    ap = argparse.ArgumentParser(prog='amerika-engine', description='Vigil Engine: Godot you talk to. ' + NOTICE)
     ap.add_argument('project', nargs='?', help='project folder (default: the newest in ~/Studio/Engine, or a new first game)')
     ap.add_argument('--new', metavar='NAME', help='create a new project with this name')
     ap.add_argument('--template', help='starter template id (see --list-templates)')

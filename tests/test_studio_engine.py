@@ -189,7 +189,7 @@ class LauncherTests(unittest.TestCase):
             settings.write_bytes(original)
             theme.seed(config)
             self.assertNotEqual(settings.read_bytes(), original)
-            self.assertIn('CohnSans-Regular.ttf', settings.read_text())
+            self.assertIn('VigilSans-Regular.ttf', settings.read_text())
             branded = settings.read_bytes()
             theme.seed(config)
             self.assertEqual(settings.read_bytes(), branded)
@@ -198,9 +198,33 @@ class LauncherTests(unittest.TestCase):
             theme.seed(config)
             self.assertEqual(settings.read_bytes(), custom)
 
+    def test_generated_cohnsoft_v2_theme_upgrades(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            config = Path(tmp)
+            (config / 'godot').mkdir()
+            settings = config / 'godot/editor_settings-4.tres'
+            base = '/usr/lib/python3/dist-packages/amerika_engine/cohnsoft/fonts/'
+            settings.write_text(theme._V2.format(font=base + 'CohnSans-Regular.ttf', bold=base + 'CohnSans-Bold.ttf'))
+            theme.seed(config)
+            self.assertIn('theme v3', settings.read_text())
+            self.assertNotIn('CohnSans', settings.read_text())
+
+    def test_theme_colours_are_readable_on_night(self):
+        def lum(h):
+            c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+            c = [x / 12.92 if x <= .03928 else ((x + .055) / 1.055) ** 2.4 for x in c]
+            return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]
+        night = lum(theme.NIGHT)
+        for name, colour in theme.SYNTAX.items():
+            ratio = (lum(colour) + .05) / (night + .05)
+            self.assertGreaterEqual(ratio, 4.5, name)
+        self.assertGreaterEqual((lum(theme.ACCENT) + .05) / (night + .05), 4.5)
+        for f in (theme.FONT, theme.BOLD_FONT):
+            self.assertTrue(Path(f).exists(), f)
+
     def test_desktop_entry_and_notice(self):
         d = (ENGINE / 'applications/amerika-engine.desktop').read_text()
-        self.assertIn('Name=Cohnsoft Engine', d)
+        self.assertIn('Name=Vigil Engine', d)
         self.assertIn('Exec=amerika-engine', d)
         self.assertIn('not affiliated with or endorsed', (ENGINE / 'NOTICE').read_text())
         self.assertIn('Permission is hereby granted', (ENGINE / 'GODOT-LICENSE.txt').read_text())

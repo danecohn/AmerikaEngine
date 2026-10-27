@@ -23,7 +23,7 @@ Install: `sudo apt install amerika-engine` (or `amerika-developer`). Start it fr
   `memory_puzzle` (Memory Grid). Racing-lite and a general card/board genre are **not** assembled yet (roadmap; the puzzle genre is a
   memory-match board).
 * **Control endpoint** for local automation: loopback JSON-RPC, see below.
-* **Branding**: neon editor theme seeded into `~/.config/amerika-engine/godot/editor_settings-4.tres` on first launch (own config
+* **Branding**: VigilTech editor theme (plum-black night, one pink accent, Vigil Sans) seeded into `~/.config/amerika-engine/godot/editor_settings-4.tres` on first launch (own config
   directory via `XDG_CONFIG_HOME`; your normal Godot settings are untouched), splash image for new projects, project icon.
 
 ## The recipe

@@ -1,8 +1,8 @@
-Current product: Cohnsoft Engine, maintained by Cohnsoft.
+Current product: Vigil Engine, a product of VigilTech (vigiltech.org).
 Historical and third-party notices below are retained unchanged.
 
-Amerika Engine is powered by the Godot Engine (https://godotengine.org), MIT licence.
-Godot is a trademark of the Godot Foundation. Amerika Engine is not affiliated with or endorsed by the Godot Foundation.
+Vigil Engine is powered by the Godot Engine (https://godotengine.org), MIT licence.
+Godot is a trademark of the Godot Foundation. Vigil Engine is not affiliated with or endorsed by the Godot Foundation.
 
 Godot itself is NOT bundled: it comes from your distribution's `godot` package (4.4 or newer; tested with 4.6 and 4.7).
 The `amerika_engine` plugin, the launcher, the recipe assembler, the components and the templates are original Amerika code (GPL-3.0-only).
