@@ -1,5 +1,5 @@
 extends VBoxContainer
-## The "Amerika" dock: chat history, model choice, Review-before-run, Stop, per-request Undo/Redo, quick actions.
+## The Cohnsoft Engine dock: chat history, model choice, Review-before-run, Stop, per-request Undo/Redo, quick actions.
 
 var ai: Node
 var tools: RefCounted
@@ -23,6 +23,10 @@ func setup(p_ai: Node, p_tools: RefCounted) -> void:
 	tools = p_tools
 	name = "Studio"
 	custom_minimum_size = Vector2(300, 400)
+	var heading := Label.new()
+	heading.text = "Cohnsoft Engine"
+	heading.add_theme_font_size_override("font_size", 18)
+	add_child(heading)
 	var top := HBoxContainer.new()
 	add_child(top)
 	_model = OptionButton.new()
